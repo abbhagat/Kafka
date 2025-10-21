@@ -23,10 +23,10 @@ public class GreetingsTopology {
 
     public static final String GREETING_SPANISH = "greetings_spanish";
 
+    private static final StreamsBuilder streamsBuilder = new StreamsBuilder();
+
 
     public static Topology buildTopology() {
-
-        StreamsBuilder streamsBuilder = new StreamsBuilder();
 
 //        KStream<String, String> greetingStream = streamsBuilder.stream(GREETING, Consumed.with(Serdes.String(), Serdes.String()));
         KStream<String, String> greetingStream = streamsBuilder.stream(GREETING);  // Default Serdes in effect
@@ -69,8 +69,6 @@ public class GreetingsTopology {
 
     public static Topology buildCustomTopology() {
 
-        StreamsBuilder streamsBuilder = new StreamsBuilder();
-
         KStream<String, Greeting> greetingStream = streamsBuilder.stream(GREETING, Consumed.with(Serdes.String(), SerdesFactory.greetingSerdes()));
         greetingStream.print(Printed.<String, Greeting>toSysOut().withLabel("greetingStream"));
 
@@ -85,6 +83,31 @@ public class GreetingsTopology {
                                                              return new Greeting(value.message().toUpperCase(), value.timestamp());
                                                           }
                                                   );
+        modifiedStream.print(Printed.<String, Greeting>toSysOut().withLabel("modifiedStream"));
+
+        modifiedStream.to(GREETING_UPPERCASE, Produced.with(Serdes.String(), SerdesFactory.greetingSerdes()));
+
+        return streamsBuilder.build();
+    }
+
+    public static Topology buildCustomSerdesTopology() {
+
+        KStream<String, Greeting> greetingStream = streamsBuilder
+                                                    .stream(GREETING, Consumed.with(Serdes.String(), SerdesFactory.greetingSerdesUsingGenerics()));
+        greetingStream.print(Printed.<String, Greeting>toSysOut().withLabel("greetingStream"));
+
+        KStream<String, Greeting> greetingSpanish = streamsBuilder
+                                                     .stream(GREETING_SPANISH, Consumed.with(Serdes.String(), SerdesFactory.greetingSerdesUsingGenerics()));
+        greetingStream.print(Printed.<String, Greeting>toSysOut().withLabel("greetingSpanish"));
+
+        KStream<String, Greeting> mergedStream = greetingStream.merge(greetingSpanish);
+        mergedStream.print(Printed.<String, Greeting>toSysOut().withLabel("mergedStream"));
+
+        KStream<String, Greeting> modifiedStream = mergedStream
+                                                    .mapValues((key, value) -> {
+                                                                return new Greeting(value.message().toUpperCase(), value.timestamp());
+                                                            }
+                                                    );
         modifiedStream.print(Printed.<String, Greeting>toSysOut().withLabel("modifiedStream"));
 
         modifiedStream.to(GREETING_UPPERCASE, Produced.with(Serdes.String(), SerdesFactory.greetingSerdes()));

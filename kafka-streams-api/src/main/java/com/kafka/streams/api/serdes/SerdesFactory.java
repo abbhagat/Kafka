@@ -10,6 +10,10 @@ public class SerdesFactory {
         return new GreetingSerdes();
     }
 
-
+    public static Serde<Greeting> greetingSerdesUsingGenerics() {
+        JsonSerializer<Greeting> jsonSerializer     = new JsonSerializer<>();
+        JsonDeserializer<Greeting> jsonDeserializer = new JsonDeserializer<>(Greeting.class);
+        return Serdes.serdeFrom(jsonSerializer, jsonDeserializer);
+    }
 
 }
