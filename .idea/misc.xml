@@ -5,6 +5,7 @@
     <option name="originalFiles">
       <list>
         <option value="$PROJECT_DIR$/kafka-streams-api/pom.xml" />
+        <option value="$PROJECT_DIR$/kafka-stream-order-app/pom.xml" />
       </list>
     </option>
   </component>
