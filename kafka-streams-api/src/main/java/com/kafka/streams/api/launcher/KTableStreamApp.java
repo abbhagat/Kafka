@@ -28,9 +28,9 @@ public class KTableStreamApp {
 
     public static void main(String[] args) {
 
-        Topology kaTableTopology = KTableTopology.buildTopology();
+        Topology kTableTopology = KTableTopology.buildTopology();
         createTopics(config, List.of(WORDS));
-        KafkaStreams kafkaStreams = new KafkaStreams(kaTableTopology, config);
+        KafkaStreams kafkaStreams = new KafkaStreams(kTableTopology, config);
 
         Runtime.getRuntime().addShutdownHook(new Thread(kafkaStreams::close));
 
