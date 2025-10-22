@@ -9,7 +9,7 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.kafka.streams.api</groupId>
-    <artifactId>kafka-stream-order-app</artifactId>
+    <artifactId>kafka-streams-order-app</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>kafka-stream-order-app</name>
     <description>kafka-stream-order-app</description>

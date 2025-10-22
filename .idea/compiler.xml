@@ -10,15 +10,15 @@
         <processorPath useClasspath="false">
           <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.40/lombok-1.18.40.jar" />
         </processorPath>
-        <module name="kafka-stream-order-app" />
+        <module name="kafka-streams-order-app" />
         <module name="kafka-streams-api" />
       </profile>
     </annotationProcessing>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
-      <module name="kafka-stream-order-app" options="-parameters" />
       <module name="kafka-streams-api" options="-parameters" />
+      <module name="kafka-streams-order-app" options="-parameters" />
     </option>
   </component>
 </project>
