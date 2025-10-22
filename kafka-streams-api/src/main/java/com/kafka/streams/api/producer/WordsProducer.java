@@ -9,7 +9,7 @@ public class WordsProducer {
 
     private static final String WORDS = "words";
 
-    public static void main(String[] args) throws InterruptedException {
+    public static void main(String[] args) {
 
         var key = "A";
 
