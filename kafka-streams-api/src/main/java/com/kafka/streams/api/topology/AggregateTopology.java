@@ -13,11 +13,11 @@ public class AggregateTopology {
     KStream<String, String> aggregateStreams = streamsBuilder.stream("words");
     aggregateStreams.print(Printed.<String, String>toSysOut().withLabel("aggregate"));
     KGroupedStream<String, String> groupedStream = aggregateStreams.groupByKey(Grouped.with(Serdes.String(), Serdes.String()));
-    calculateCount(groupedStream);
+    exploreCount(groupedStream);
     return streamsBuilder.build();
   }
 
-  private static void calculateCount(KGroupedStream<String, String> groupedStream) {
+  private static void exploreCount(KGroupedStream<String, String> groupedStream) {
     KTable<String, Long> countByAlphabet = groupedStream.count(Named.as("count-per-alphabet"));
     countByAlphabet.toStream().print(Printed.<String, Long>toSysOut().withLabel("count-per-alphabet"));
   }
