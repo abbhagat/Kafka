@@ -18,9 +18,9 @@ public class KTableTopology {
     KTable<String, String> wordsTable = streamsBuilder.table(WORDS, consumed, Materialized.as("word-store"));
 
     wordsTable.filter((key, value) -> value.length() > 2)
-        .toStream()
-        .peek((key, value) -> log.info("key: {} value: {}", key, value))
-        .print(Printed.<String, String>toSysOut().withLabel("words-ktable"));
+              .toStream()
+              .peek((key, value) -> log.info("key: {} value: {}", key, value))
+              .print(Printed.<String, String>toSysOut().withLabel("words-ktable"));
 
     GlobalKTable<String, String> wordsGlobalTable = streamsBuilder.globalTable(WORDS, consumed, Materialized.as("word-global-store"));
 

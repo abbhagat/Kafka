@@ -40,23 +40,22 @@ public class GreetingsTopology {
     KStream<String, String> mergedStream = greetingStream.merge(greetingSpanish);
 
     KStream<String, String> modifiedStream = mergedStream
-        .filter((key, value) -> value.length() > 5)
-        .peek((key, value) -> log.info("Key : {} Value : {}", key, value))
-//              .mapValues((key, value) -> value.toUpperCase());
-        .flatMap((key, value) -> {
-          List<String> newValues = List.of(value.split(""));
-          List<KeyValue<String, String>> result = newValues.stream()
-              .map(val -> KeyValue.pair(key, val.toUpperCase()))
-              .collect(Collectors.toList());
-          return result;
-        });
+                                                .filter((key, value) -> value.length() > 5)
+                                                .peek((key, value) -> log.info("Key : {} Value : {}", key, value))
+                                                .flatMap((key, value) -> {
+                                                  List<String> newValues = List.of(value.split(""));
+                                                  List<KeyValue<String, String>> result = newValues.stream()
+                                                                                             .map(val -> KeyValue.pair(key.toUpperCase(), val.toUpperCase()))
+                                                                                             .collect(Collectors.toList());
+                                                  return result;
+                                                });
 
     KStream<String, String> modifiedStream2 = greetingStream
         .flatMapValues((key, value) -> {
           List<String> newValues = List.of(value.split(""));
-          List<String> result = newValues.stream()
-              .map(String::toUpperCase)
-              .collect(Collectors.toList());
+          List<String> result    = newValues.stream()
+                                            .map(String::toUpperCase)
+                                            .collect(Collectors.toList());
           return result;
         });
 
