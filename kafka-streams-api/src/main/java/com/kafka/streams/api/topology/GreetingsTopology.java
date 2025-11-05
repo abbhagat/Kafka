@@ -79,10 +79,10 @@ public class GreetingsTopology {
     mergedStream.print(Printed.<String, Greeting>toSysOut().withLabel("mergedStream"));
 
     KStream<String, Greeting> modifiedStream = mergedStream
-        .mapValues((key, value) -> {
-              return new Greeting(value.message().toUpperCase(), value.timestamp());
-            }
-        );
+                                                           .mapValues((key, value) -> {
+                                                                 return new Greeting(value.message().toUpperCase(), value.timestamp());
+                                                               }
+                                                           );
     modifiedStream.print(Printed.<String, Greeting>toSysOut().withLabel("modifiedStream"));
 
     modifiedStream.to(GREETING_UPPERCASE, Produced.with(Serdes.String(), SerdesFactory.greetingSerdes()));
@@ -92,21 +92,16 @@ public class GreetingsTopology {
 
   public static Topology buildCustomSerdesTopology() {
 
-    KStream<String, Greeting> greetingStream = streamsBuilder
-        .stream(GREETING, Consumed.with(Serdes.String(), SerdesFactory.greetingSerdesUsingGenerics()));
+    KStream<String, Greeting> greetingStream = streamsBuilder.stream(GREETING, Consumed.with(Serdes.String(), SerdesFactory.greetingSerdesUsingGenerics()));
     greetingStream.print(Printed.<String, Greeting>toSysOut().withLabel("greetingStream"));
 
-    KStream<String, Greeting> greetingSpanish = streamsBuilder
-        .stream(GREETING_SPANISH, Consumed.with(Serdes.String(), SerdesFactory.greetingSerdesUsingGenerics()));
+    KStream<String, Greeting> greetingSpanish = streamsBuilder.stream(GREETING_SPANISH, Consumed.with(Serdes.String(), SerdesFactory.greetingSerdesUsingGenerics()));
     greetingStream.print(Printed.<String, Greeting>toSysOut().withLabel("greetingSpanish"));
 
     KStream<String, Greeting> mergedStream = greetingStream.merge(greetingSpanish);
     mergedStream.print(Printed.<String, Greeting>toSysOut().withLabel("mergedStream"));
 
-    KStream<String, Greeting> modifiedStream = mergedStream
-        .mapValues((key, value) -> {
-              return new Greeting(value.message().toUpperCase(), value.timestamp());
-            }
+    KStream<String, Greeting> modifiedStream = mergedStream.mapValues((key, value) -> new Greeting(value.message().toUpperCase(), value.timestamp())
         );
     modifiedStream.print(Printed.<String, Greeting>toSysOut().withLabel("modifiedStream"));
 
