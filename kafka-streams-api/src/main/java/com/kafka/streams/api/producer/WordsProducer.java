@@ -31,10 +31,10 @@ public class WordsProducer {
     var bWord1 = "Bus";
     var bWord2 = "Baby";
     var recordMetaData3 = publishMessageSync(WORDS, bKey, bWord1);
-    log.info("Published the alphabet message : {} ", recordMetaData2);
+    log.info("Published the alphabet message : {} ", recordMetaData3);
 
     var recordMetaData4 = publishMessageSync(WORDS, bKey, bWord2);
-    log.info("Published the alphabet message : {} ", recordMetaData2);
+    log.info("Published the alphabet message : {} ", recordMetaData4);
 
   }
 
