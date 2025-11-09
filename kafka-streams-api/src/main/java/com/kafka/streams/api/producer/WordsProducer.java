@@ -1,7 +1,6 @@
 package com.kafka.streams.api.producer;
 
 import lombok.extern.slf4j.Slf4j;
-
 import static com.kafka.streams.api.producer.ProducerUtil.publishMessageSync;
 
 @Slf4j
@@ -11,31 +10,22 @@ public class WordsProducer {
 
   public static void main(String[] args) {
 
-    var key = "A";
+    String key   = "A";
+    String word1 = "Apple";
+    String word2 = "Alligator";
+    String word3 = "Ambulance";
+    
+    log.info("Published the alphabet message : {} ", publishMessageSync(WORDS, key, word1));
+    log.info("Published the alphabet message : {} ", publishMessageSync(WORDS, key, word2));
+    log.info("Published the alphabet message : {} ", publishMessageSync(WORDS, key, word3));
 
-    var word = "Apple";
-    var word1 = "Alligator";
-    var word2 = "Ambulance";
 
-    var recordMetaData = publishMessageSync(WORDS, key, word);
-    log.info("Published the alphabet message : {} ", recordMetaData);
-
-    var recordMetaData1 = publishMessageSync(WORDS, key, word1);
-    log.info("Published the alphabet message : {} ", recordMetaData1);
-
-    var recordMetaData2 = publishMessageSync(WORDS, key, word2);
-    log.info("Published the alphabet message : {} ", recordMetaData2);
-
-    var bKey = "B";
-
-    var bWord1 = "Bus";
-    var bWord2 = "Baby";
-    var recordMetaData3 = publishMessageSync(WORDS, bKey, bWord1);
-    log.info("Published the alphabet message : {} ", recordMetaData3);
-
-    var recordMetaData4 = publishMessageSync(WORDS, bKey, bWord2);
-    log.info("Published the alphabet message : {} ", recordMetaData4);
-
+    key   = "B";
+    String word4 = "Bus";
+    String word5 = "Baby";
+    
+    log.info("Published the alphabet message : {} ", publishMessageSync(WORDS, key, word4));
+    log.info("Published the alphabet message : {} ", publishMessageSync(WORDS, key, word5));
   }
 
 }

@@ -6,15 +6,13 @@ import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.clients.producer.RecordMetadata;
 import org.apache.kafka.common.serialization.StringSerializer;
-
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.ExecutionException;
 
 @Slf4j
 public class ProducerUtil {
 
-  private static final KafkaProducer<String, String> producer = new KafkaProducer<>(producerProps());
+  private static final KafkaProducer<String, String> kafkaProducer = new KafkaProducer<>(producerProps());
 
   public static Map<String, Object> producerProps() {
     Map<String, Object> propsMap = new HashMap<>();
@@ -30,12 +28,8 @@ public class ProducerUtil {
     RecordMetadata recordMetadata = null;
     try {
       log.info("producerRecord : {}", producerRecord);
-      recordMetadata = producer.send(producerRecord).get();
-    } catch (InterruptedException e) {
-      log.error("InterruptedException in  publishMessageSync : {}  ", e.getMessage(), e);
-    } catch (ExecutionException e) {
-      log.error("ExecutionException in  publishMessageSync : {}  ", e.getMessage(), e);
-    } catch (Exception e) {
+      recordMetadata = kafkaProducer.send(producerRecord).get();
+    }catch (Exception e) {
       log.error("Exception in  publishMessageSync : {}  ", e.getMessage(), e);
     }
     return recordMetadata;
