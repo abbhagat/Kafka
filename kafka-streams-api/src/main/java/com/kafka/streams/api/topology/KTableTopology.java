@@ -9,21 +9,21 @@ import org.apache.kafka.streams.kstream.*;
 @Slf4j
 public class KTableTopology {
 
-  public static final String WORDS = "words";
+    public static final String WORDS = "words";
 
-  public static Topology buildTopology() {
-    StreamsBuilder streamsBuilder = new StreamsBuilder();
-    Consumed<String, String> consumed = Consumed.with(Serdes.String(), Serdes.String());
+    public static Topology buildTopology() {
+        StreamsBuilder streamsBuilder = new StreamsBuilder();
+        Consumed<String, String> consumed = Consumed.with(Serdes.String(), Serdes.String());
 
-    KTable<String, String> wordsTable = streamsBuilder.table(WORDS, consumed, Materialized.as("word-store"));
+        KTable<String, String> wordsTable = streamsBuilder.table(WORDS, consumed, Materialized.as("word-store"));
 
-    wordsTable.filter((key, value) -> value.length() > 2)
-              .toStream()
-              .peek((key, value) -> log.info("key: {} value: {}", key, value))
-              .print(Printed.<String, String>toSysOut().withLabel("words-ktable"));
+        wordsTable.filter((key, value) -> value.length() > 2)
+                .toStream()
+                .peek((key, value) -> log.info("key: {} value: {}", key, value))
+                .print(Printed.<String, String>toSysOut().withLabel("words-ktable"));
 
-    GlobalKTable<String, String> wordsGlobalTable = streamsBuilder.globalTable(WORDS, consumed, Materialized.as("word-global-store"));
+        GlobalKTable<String, String> wordsGlobalTable = streamsBuilder.globalTable(WORDS, consumed, Materialized.as("word-global-store"));
 
-    return streamsBuilder.build();
-  }
+        return streamsBuilder.build();
+    }
 }
