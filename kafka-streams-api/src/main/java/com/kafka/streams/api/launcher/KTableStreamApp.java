@@ -6,11 +6,8 @@ import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.streams.KafkaStreams;
 import org.apache.kafka.streams.StreamsConfig;
 import org.apache.kafka.streams.Topology;
-
 import java.util.List;
 import java.util.Properties;
-
-import static com.kafka.streams.api.launcher.TopicUtil.createTopics;
 import static com.kafka.streams.api.topology.KTableTopology.WORDS;
 
 @Slf4j
@@ -22,7 +19,7 @@ public class KTableStreamApp {
         config.put(StreamsConfig.APPLICATION_ID_CONFIG, "ktable");
         config.put(StreamsConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092,localhost:9093,localhost:9094");
         config.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "latest");
-        createTopics(config, List.of(WORDS));
+        TopicUtil.createTopics(config, List.of(WORDS));
     }
 
     public static void main(String[] args) {
