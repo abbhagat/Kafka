@@ -5,7 +5,6 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.common.serialization.Deserializer;
-
 import java.io.IOException;
 
 @Slf4j
@@ -30,9 +29,6 @@ public class JsonDeserializer<T> implements Deserializer<T> {
       return objectMapper.readValue(data, destinationClass);
     } catch (IOException e) {
       log.error("IOException in Deserializer: {} ", e.getMessage());
-      throw new RuntimeException(e);
-    } catch (Exception e) {
-      log.error("Exception in Deserializer: {} ", e.getMessage());
       throw new RuntimeException(e);
     }
   }

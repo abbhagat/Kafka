@@ -22,9 +22,6 @@ public class GreetingSerializer implements Serializer<Greeting> {
     } catch (JsonProcessingException e) {
       log.error("JSON Processing Exception : {} ", e.getMessage());
       throw new RuntimeException(e);
-    } catch (Exception e) {
-      log.error("Exception : {} ", e.getMessage());
-      throw new RuntimeException(e);
     }
   }
 }
