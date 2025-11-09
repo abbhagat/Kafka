@@ -11,6 +11,9 @@ import java.util.stream.Collectors;
 @Slf4j
 public class TopicUtil {
 
+    public static final String GREETING_TOPIC = "greetings";
+    public static final String GREETING_UPPERCASE_TOPIC = "greetings_uppercase";
+    public static final String GREETING_SPANISH_TOPIC = "greetings_spanish";
     private static final int numPartitions = 3;
     private static final short replicationFactor = 3;
 

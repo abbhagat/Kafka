@@ -10,6 +10,7 @@ import org.apache.kafka.streams.Topology;
 import java.util.List;
 import java.util.Properties;
 
+import static com.kafka.streams.api.launcher.TopicUtil.*;
 import static com.kafka.streams.api.topology.GreetingsTopology.*;
 
 @Slf4j

@@ -14,23 +14,19 @@ import org.apache.kafka.streams.kstream.Produced;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.kafka.streams.api.launcher.TopicUtil.*;
+
 @Slf4j
 public class GreetingsTopology {
-
-  public static final String GREETING_TOPIC = "greetings";
-  public static final String GREETING_UPPERCASE_TOPIC = "greetings_uppercase";
-  public static final String GREETING_SPANISH_TOPIC = "greetings_spanish";
   private static final StreamsBuilder streamsBuilder = new StreamsBuilder();
 
   public static Topology buildTopology() {
 
-//  KStream<String, String> greetingStream = streamsBuilder.stream(GREETING, Consumed.with(Serdes.String(), Serdes.String()));
     KStream<String, String> greetingStream = streamsBuilder.stream(GREETING_TOPIC);  // Default Serdes in effect
-    greetingStream.print(Printed.<String, String>toSysOut().withLabel("greetingsStream"));
+//    greetingStream.print(Printed.<String, String>toSysOut().withLabel("greetingsStream"));
 
     KStream<String, String> greetingSpanish = streamsBuilder.stream(GREETING_SPANISH_TOPIC);  // Default Serdes in effect
-//  KStream<String, String> greetingSpanish = streamsBuilder.stream(GREETING_SPANISH, Consumed.with(Serdes.String(), Serdes.String()));
-    greetingStream.print(Printed.<String, String>toSysOut().withLabel("greetingSpanish"));
+//    greetingSpanish.print(Printed.<String, String>toSysOut().withLabel("greetingSpanish"));
 
     KStream<String, String> mergedStream = greetingStream.merge(greetingSpanish);
 
@@ -54,9 +50,9 @@ public class GreetingsTopology {
           return result;
         });
 
-    modifiedStream.print(Printed.<String, String>toSysOut().withLabel("modifiedStream"));
+    modifiedStream2.print(Printed.<String, String>toSysOut().withLabel("modifiedStream"));
 
-    modifiedStream.to(GREETING_UPPERCASE_TOPIC);  // Default Serdes in effect
+    modifiedStream2.to(GREETING_UPPERCASE_TOPIC);  // Default Serdes in effect
 //  modifiedStream.to(GREETING_UPPERCASE, Produced.with(Serdes.String(), Serdes.String()));
 
     return streamsBuilder.build();
@@ -68,16 +64,12 @@ public class GreetingsTopology {
     greetingStream.print(Printed.<String, Greeting>toSysOut().withLabel("greetingStream"));
 
     KStream<String, Greeting> greetingSpanish = streamsBuilder.stream(GREETING_SPANISH_TOPIC, Consumed.with(Serdes.String(), SerdesFactory.greetingSerdes()));
-    greetingStream.print(Printed.<String, Greeting>toSysOut().withLabel("greetingSpanish"));
+    greetingSpanish.print(Printed.<String, Greeting>toSysOut().withLabel("greetingSpanish"));
 
     KStream<String, Greeting> mergedStream = greetingStream.merge(greetingSpanish);
     mergedStream.print(Printed.<String, Greeting>toSysOut().withLabel("mergedStream"));
 
-    KStream<String, Greeting> modifiedStream = mergedStream
-                                                           .mapValues((key, value) -> {
-                                                                 return new Greeting(value.message().toUpperCase(), value.timestamp());
-                                                               }
-                                                           );
+    KStream<String, Greeting> modifiedStream = mergedStream.mapValues((key, value) -> new Greeting(value.message().toUpperCase(), value.timestamp()));
     modifiedStream.print(Printed.<String, Greeting>toSysOut().withLabel("modifiedStream"));
 
     modifiedStream.to(GREETING_UPPERCASE_TOPIC, Produced.with(Serdes.String(), SerdesFactory.greetingSerdes()));
