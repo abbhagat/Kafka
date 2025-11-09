@@ -20,7 +20,7 @@ public class KTableTopology {
         wordsTable.filter((key, value) -> value.length() > 2)
                 .toStream()
                 .peek((key, value) -> log.info("key: {} value: {}", key, value))
-                .print(Printed.<String, String>toSysOut().withLabel("words-ktable"));
+                .print(Printed.<String, String>toSysOut().withLabel("words-KTable"));
 
         GlobalKTable<String, String> wordsGlobalTable = streamsBuilder.globalTable(WORDS, consumed, Materialized.as("word-global-store"));
 
