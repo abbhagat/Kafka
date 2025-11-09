@@ -22,7 +22,7 @@ public class AggregateTopology {
 
     private static void exploreReduce(KGroupedStream<String, String> groupedStream) {
         groupedStream.reduce((value1, value2) -> {
-            log.info("value1 :{}- value2 :{}", value1, value2);
+            log.info("value1 :{} - value2 :{}", value1, value2);
             return value1.toUpperCase() + value2.toUpperCase();
         });
     }

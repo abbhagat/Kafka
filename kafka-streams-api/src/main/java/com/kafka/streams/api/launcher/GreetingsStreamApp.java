@@ -9,9 +9,7 @@ import org.apache.kafka.streams.StreamsConfig;
 import org.apache.kafka.streams.Topology;
 import java.util.List;
 import java.util.Properties;
-
 import static com.kafka.streams.api.launcher.TopicUtil.*;
-import static com.kafka.streams.api.topology.GreetingsTopology.*;
 
 @Slf4j
 public class GreetingsStreamApp {
@@ -25,7 +23,7 @@ public class GreetingsStreamApp {
         config.put(StreamsConfig.DEFAULT_VALUE_SERDE_CLASS_CONFIG, Serdes.StringSerde.class);
         config.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "latest");
 
-        TopicUtil.createTopics(config, List.of(GREETING_TOPIC, GREETING_UPPERCASE_TOPIC, GREETING_SPANISH_TOPIC));
+        TopicUtil.createTopics(config, List.of(GREETING_TOPIC, GREETING_UPPERCASE_TOPIC, GREETING_SPANISH_TOPIC, WORDS));
     }
 
     public static void main(String[] args) {

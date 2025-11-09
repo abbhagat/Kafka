@@ -23,6 +23,8 @@ public class AggregateStreamsApp {
         config.put(StreamsConfig.DEFAULT_KEY_SERDE_CLASS_CONFIG, Serdes.StringSerde.class);
         config.put(StreamsConfig.DEFAULT_VALUE_SERDE_CLASS_CONFIG, Serdes.StringSerde.class);
         config.put(StreamsConfig.COMMIT_INTERVAL_MS_CONFIG, 5000);
+
+        TopicUtil.createTopic(config, TopicUtil.WORDS);
     }
 
     public static void main(String[] args) {
