@@ -18,11 +18,11 @@ public class TopicUtil {
     private static final int numPartitions = 3;
     private static final short replicationFactor = 3;
 
-    public static void createTopics(Properties brokerConfig, List<String> words) {
+    public static void createTopics(Properties brokerConfig, List<String> topicsNameList) {
         try (AdminClient admin = AdminClient.create(brokerConfig)) {
-            List<NewTopic> newTopics = words
+            List<NewTopic> newTopics = topicsNameList
                                             .stream()
-                                            .map(topic -> new NewTopic(topic, numPartitions, replicationFactor))
+                                            .map(topicName -> new NewTopic(topicName, numPartitions, replicationFactor))
                                             .collect(Collectors.toList());
             CreateTopicsResult createTopicResult = admin.createTopics(newTopics);
             try {

@@ -18,6 +18,7 @@ import static com.kafka.streams.api.launcher.TopicUtil.*;
 
 @Slf4j
 public class GreetingsTopology {
+
   private static final StreamsBuilder streamsBuilder = new StreamsBuilder();
 
   public static Topology buildTopology() {
@@ -69,7 +70,8 @@ public class GreetingsTopology {
     KStream<String, Greeting> mergedStream = greetingStream.merge(greetingSpanish);
     mergedStream.print(Printed.<String, Greeting>toSysOut().withLabel("mergedStream"));
 
-    KStream<String, Greeting> modifiedStream = mergedStream.mapValues((key, value) -> new Greeting(value.message().toUpperCase(), value.timestamp()));
+    KStream<String, Greeting> modifiedStream = mergedStream
+                                                .mapValues((key, value) -> new Greeting(value.message().toUpperCase(), value.timestamp()));
     modifiedStream.print(Printed.<String, Greeting>toSysOut().withLabel("modifiedStream"));
 
     modifiedStream.to(GREETING_UPPERCASE_TOPIC, Produced.with(Serdes.String(), SerdesFactory.greetingSerdes()));

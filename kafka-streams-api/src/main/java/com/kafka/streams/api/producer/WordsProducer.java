@@ -7,25 +7,22 @@ import static com.kafka.streams.api.producer.ProducerUtil.publishMessageSync;
 public class WordsProducer {
 
     private static final String WORDS = "words";
+    private static final String KEY_A   = "A";
+    private static final String KEY_B   = "B";
+    private static final String word1 = "Apple";
+    private static final String word2 = "Alligator";
+    private static final String word3 = "Ambulance";
+    private static final String word4 = "Bus";
+    private static final String word5 = "Baby";
 
     public static void main(String[] args) {
 
-        String key   = "A";
-        String word1 = "Apple";
-        String word2 = "Alligator";
-        String word3 = "Ambulance";
+        log.info("Published the alphabet message : {} ", publishMessageSync(WORDS, KEY_A, word1));
+        log.info("Published the alphabet message : {} ", publishMessageSync(WORDS, KEY_A, word2));
+        log.info("Published the alphabet message : {} ", publishMessageSync(WORDS, KEY_A, word3));
 
-        log.info("Published the alphabet message : {} ", publishMessageSync(WORDS, key, word1));
-        log.info("Published the alphabet message : {} ", publishMessageSync(WORDS, key, word2));
-        log.info("Published the alphabet message : {} ", publishMessageSync(WORDS, key, word3));
-
-
-        key   = "B";
-        String word4 = "Bus";
-        String word5 = "Baby";
-
-        log.info("Published the alphabet message : {} ", publishMessageSync(WORDS, key, word4));
-        log.info("Published the alphabet message : {} ", publishMessageSync(WORDS, key, word5));
+        log.info("Published the alphabet message : {} ", publishMessageSync(WORDS, KEY_B, word4));
+        log.info("Published the alphabet message : {} ", publishMessageSync(WORDS, KEY_B, word5));
     }
 
 }
