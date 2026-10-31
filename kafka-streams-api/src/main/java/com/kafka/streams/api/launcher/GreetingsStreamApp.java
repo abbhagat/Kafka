@@ -19,7 +19,7 @@ public class GreetingsStreamApp {
     static {
         brokerConfig.put(StreamsConfig.APPLICATION_ID_CONFIG, "greetings-app");
         brokerConfig.put(StreamsConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092, localhost:9093, localhost:9094");
-        brokerConfig.put(StreamsConfig.DEFAULT_KEY_SERDE_CLASS_CONFIG, Serdes.StringSerde.class);
+        brokerConfig.put(StreamsConfig.DEFAULT_KEY_SERDE_CLASS_CONFIG,   Serdes.StringSerde.class);
         brokerConfig.put(StreamsConfig.DEFAULT_VALUE_SERDE_CLASS_CONFIG, Serdes.StringSerde.class);
         brokerConfig.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "latest");
 
