@@ -4,13 +4,13 @@ import com.kafka.streams.api.domain.Greeting;
 import com.kafka.streams.api.serdes.SerdesFactory;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.common.serialization.Serdes;
-import org.apache.kafka.streams.KeyValue;
 import org.apache.kafka.streams.StreamsBuilder;
 import org.apache.kafka.streams.Topology;
 import org.apache.kafka.streams.kstream.Consumed;
 import org.apache.kafka.streams.kstream.KStream;
 import org.apache.kafka.streams.kstream.Printed;
 import org.apache.kafka.streams.kstream.Produced;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -32,15 +32,15 @@ public class GreetingsTopology {
     KStream<String, String> mergedStream = greetingStream.merge(greetingSpanish);
 
     KStream<String, String> modifiedStream = mergedStream
-                                                .filter((key, value) -> value.length() > 5)
-                                                .peek((key, value) -> log.info("Key : {} Value : {}", key, value))
-                                                .flatMapValues(value -> {
-                                                  List<String> newValues = List.of(value.split(""));
-                                                  List<String> result    = newValues.stream()
-                                                                                    .map(String::toUpperCase)
-                                                                                    .collect(Collectors.toList());
-                                                  return result;
-                                                });
+        .filter((key, value) -> value.length() > 5)
+        .peek((key, value) -> log.info("Key : {} Value : {}", key, value))
+        .flatMapValues(value -> {
+          List<String> newValues = List.of(value.split(""));
+          List<String> result = newValues.stream()
+              .map(String::toUpperCase)
+              .collect(Collectors.toList());
+          return result;
+        });
 //                                                .flatMap((key, value) -> {
 //                                                  List<String> newValues = List.of(value.split(""));
 //                                                  List<KeyValue<String, String>> result = newValues.stream()
@@ -50,13 +50,13 @@ public class GreetingsTopology {
 //                                                });
 
     KStream<String, String> modifiedStream2 = greetingStream
-                                                  .flatMapValues((key, value) -> {
-                                                    List<String> newValues = List.of(value.split(""));
-                                                    List<String> result    = newValues.stream()
-                                                                                      .map(String::toUpperCase)
-                                                                                      .collect(Collectors.toList());
-                                                    return result;
-                                                  });
+        .flatMapValues((key, value) -> {
+          List<String> newValues = List.of(value.split(""));
+          List<String> result = newValues.stream()
+              .map(String::toUpperCase)
+              .collect(Collectors.toList());
+          return result;
+        });
 
     modifiedStream2.print(Printed.<String, String>toSysOut().withLabel("modifiedStream"));
 
@@ -78,7 +78,7 @@ public class GreetingsTopology {
     mergedStream.print(Printed.<String, Greeting>toSysOut().withLabel("mergedStream"));
 
     KStream<String, Greeting> modifiedStream = mergedStream
-                                                .mapValues((key, value) -> new Greeting(value.message().toUpperCase(), value.timestamp()));
+        .mapValues((key, value) -> new Greeting(value.message().toUpperCase(), value.timestamp()));
     modifiedStream.print(Printed.<String, Greeting>toSysOut().withLabel("modifiedStream"));
 
     modifiedStream.to(GREETING_UPPERCASE_TOPIC, Produced.with(Serdes.String(), SerdesFactory.greetingSerdes()));
